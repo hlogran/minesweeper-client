@@ -1,22 +1,33 @@
 import React from 'react';
-
+import Cell from './Cell'
 export default function Board(props){
     const {game} = props;
 
-    const rows = game ? game.rows : 10;
-    const cols = game ? game.cols : 10;
-    const cells = game ? game.cells : new Array(100);
+    if(!game) return null;
+
+    const rows = [];
+    for(let i = 0; i<game.rows; i++){
+        rows.push([]);
+    };
+
+    game.cells.forEach((cell, i) => {
+        const row = cell.row;
+        console.log('row', row);
+        cell.index = i;
+        rows[Number(row)].push(cell)
+    });
 
     return (
-        <div style={{
-            width: '30px',
-            height: '30px',
-            backgroundColor: 'darkgray',
-            border: 'solid thin'
-        }}>
-
+        <div>
+            {
+                rows.map(r => (
+                    <Row>
+                        {r.map( c => <Cell cell={c}/>)}
+                    </Row>
+                ))
+            }
         </div>
-    )
+    );
 }
 
 function Row(props){
