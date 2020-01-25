@@ -23,10 +23,23 @@ function App() {
     })();
   }, []);
 
+  const reveal = async (cellId) => {
+    console.log('reveal')
+    if(['WON', 'LOST'].indexOf(game.state) > -1 ) return;
+    const response = await fetch(`${API_URL}/games/${game.id}/cells/${cellId}/reveal`, {
+      method: "post"
+    });
+
+    let game2 = await response.json();
+    setGame(game2);
+  }
+
   return (
     <div className="App">
       <h1>Minesweeper game</h1>
-      <Board game={game}/>
+      <Board game={game} reveal={reveal}/>
+      {game && game.state === 'WON' && <h1 style={{color: 'green'}}>You won!</h1>}
+      {game && game.state === 'LOST' && <h1 style={{color: 'red'}}>You Lost :(</h1>}
     </div>
   );
 }

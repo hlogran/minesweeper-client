@@ -1,8 +1,7 @@
 import React from 'react';
 import Cell from './Cell'
 export default function Board(props){
-    const {game} = props;
-
+    const {game, reveal} = props;
     if(!game) return null;
 
     const rows = [];
@@ -22,7 +21,7 @@ export default function Board(props){
             {
                 rows.map(r => (
                     <Row>
-                        {r.map( c => <Cell cell={c}/>)}
+                        {r.map( c => <Cell cell={c} reveal={reveal}/>)}
                     </Row>
                 ))
             }
